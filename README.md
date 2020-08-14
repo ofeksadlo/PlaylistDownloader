@@ -12,7 +12,3 @@ You can minimize the automated browser.
 
 # How it works
 Using selenium the program will retrieve from the playlist youtube page, how many songs in that playlist. And then run in for loop downloading each song using https://ytmp3.cc/ service
-
-# Future plans
-So far I didn't manage to run the chrome in headless driver (invisible driver). 
-But I'm working on a diffrent approach to make the chrome page invisible.
