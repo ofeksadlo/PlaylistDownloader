@@ -11,7 +11,7 @@ The program will loop through all the song in the playlist and download all of t
 You can minimize the automated browser.
 
 # How it works
-Using selenium the program will retrieve from the playlist youtube page, How many songs in that playlist. And then run in for loop downloading each song using https://ytmp3.cc/ service
+Using selenium the program will retrieve from the playlist youtube page, how many songs in that playlist. And then run in for loop downloading each song using https://ytmp3.cc/ service
 
 # Future plans
 So far I didn't manage to run the chrome in headless driver (invisible driver). 
