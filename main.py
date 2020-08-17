@@ -10,8 +10,8 @@ import time, os
 #We start off by getting the url of the playlist we'll download the songs from. 
 urlToDownload = input('Enter the playlist url you want to download: ')
 
-#After the job is done we want to print the songs that downloaded
-songsList = []
+
+
 
 
 driver = webdriver.Chrome(executable_path=r'D:\chromedriver.exe')
@@ -23,15 +23,21 @@ driver.implicitly_wait(30)
 #First we retrive the number of songs in this playlist. Later on we'll use this variable to loop through the playlist.
 #The convertion for songCounter is done because of the for loop.
 songCounter = int(driver.find_element(by=By.CSS_SELECTOR, value='#publisher-container > div > yt-formatted-string > span:nth-child(3)').text)
+#After the job is done we want to print the songs that downloaded
+songsList = []
 clear = lambda: os.system('cls')
 clear()
 #We clear the console because we want to show our progress for the client.
 
 
 for i in range(songCounter):
-    clear()
     #The console needs to get clear every time so the status we print represent the real progress.
+    clear()
+    #We add to the song list the song name
+    songsList.append(driver.find_element_by_css_selector('#container > h1 > yt-formatted-string').text)
+    #Here we print out are progress
     print("Downloading " + str(i+1) +" / "+ str(songCounter) + " songs")
+    print("Currently downloading: " + songsList[-1])
     #Opening a new tab to download the song we currently on.
     driver.execute_script("window.open('');")
     #Switching to the new tab opened
@@ -44,12 +50,13 @@ for i in range(songCounter):
     driver.implicitly_wait(30)
     driver.find_element_by_link_text('Download').click()
     #We give the song a chance to start downloading (even though it's almost instantly).
+    #We can't use driver.implicitly_wait(2) because it doesn't wait for files
+    # to start downloading. Resulting in songs skipped.
     time.sleep(2)
     driver.close()
     #We go back to first tab to download the next music clip of the playlist.
     driver.switch_to.window(driver.window_handles[0])
-    #We add to the song list the song name
-    songsList.append(driver.find_element_by_css_selector('#container > h1 > yt-formatted-string').text)
+    
     #Clicking the next button of the youtube player.
     driver.find_element_by_css_selector('#movie_player > div.ytp-chrome-bottom > div.ytp-chrome-controls > div.ytp-left-controls > a.ytp-next-button.ytp-button').click()
     urlToDownload = driver.current_url
