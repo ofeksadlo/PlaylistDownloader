@@ -1,5 +1,6 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver import DesiredCapabilities
 from selenium.webdriver.common.by import By
 import time, os
 
@@ -8,8 +9,12 @@ import time, os
 
 #We start off by getting the url of the playlist we'll download the songs from. 
 urlToDownload = input('Enter the playlist url you want to download: ')
-driver = webdriver.Chrome(executable_path=r'D:\chromedriver.exe')
 
+#After the job is done we want to print the songs that downloaded
+songsList = []
+
+
+driver = webdriver.Chrome(executable_path=r'D:\chromedriver.exe')
 
 
 driver.get(urlToDownload)
@@ -43,6 +48,14 @@ for i in range(songCounter):
     driver.close()
     #We go back to first tab to download the next music clip of the playlist.
     driver.switch_to.window(driver.window_handles[0])
+    #We add to the song list the song name
+    songsList.append(driver.find_element_by_css_selector('#container > h1 > yt-formatted-string').text)
     #Clicking the next button of the youtube player.
     driver.find_element_by_css_selector('#movie_player > div.ytp-chrome-bottom > div.ytp-chrome-controls > div.ytp-left-controls > a.ytp-next-button.ytp-button').click()
     urlToDownload = driver.current_url
+clear()
+print("Downloaded completed " + str(songCounter) + " / " + str(songCounter) + "songs.")
+print("Songs downloaded:")
+#Looping through the songs list and printing out each one
+for song in songsList:
+    print(song)
